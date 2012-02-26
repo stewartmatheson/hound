@@ -31,6 +31,18 @@ class Hound
     @response = [201, {"Content-Type" => "application/json"}, [JSON.generate(response_document)]]
   end
 
+  def get(rack_request)
+    exploaded_path = rack_request.path.split(/\//)
+    return if exploaded_path.empty?
+    db_collection = db_connection.collection(exploaded_path[1])
+    
+    fetched_collection = Array.new
+    db_collection.find().each do |doc|
+      fetched_collection << doc
+    end
+    @response = [200, {"Content-Type" => "application/json"}, [JSON.generate(fetched_collection)]]
+  end
+
   def error(message)
     document = {
       :code     => "500",
@@ -38,4 +50,5 @@ class Hound
     }
     @response = [500, {"Content-Type" => "application/json"}, [document]]
   end
+
 end

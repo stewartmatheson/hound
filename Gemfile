@@ -1,7 +1,9 @@
-source 'http:://rubygems.com'
+source "http://rubygems.org"
 
 gem 'rake'
 gem 'rack'
-gem 'rack/test'
+gem 'rack-test', :require => 'rack/test'
 gem 'rspec'
 gem 'json'
+gem 'mongo'
+gem 'bson_ext'
