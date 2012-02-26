@@ -100,7 +100,7 @@ describe "Hound document handler" do
     it "should return the correct json" do
       get '/people'
       response_data = JSON.parse(last_response.body)
-      response_data['_id'].should eql connection.collection('people').find_one['_id'].to_s
+      response_data[0]['_id'].should eql connection.collection('people').find_one['_id'].to_s
     end
   end
 

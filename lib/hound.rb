@@ -37,9 +37,7 @@ class Hound
     db_collection = db_connection.collection(exploaded_path[1])
     
     fetched_collection = Array.new
-    db_collection.find().each do |doc|
-      fetched_collection << doc
-    end
+    db_collection.find().each { |doc| fetched_collection << transform_doc(doc) }
     @response = [200, {"Content-Type" => "application/json"}, [JSON.generate(fetched_collection)]]
   end
 
@@ -49,6 +47,12 @@ class Hound
       :message  => message
     }
     @response = [500, {"Content-Type" => "application/json"}, [document]]
+  end
+
+  def transform_doc(doc)
+    new_doc = Hash.new
+    doc.each { |key, value| new_doc[key] = value.to_s }
+    new_doc
   end
 
 end
